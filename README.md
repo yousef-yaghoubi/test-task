@@ -1,37 +1,189 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# README — Next.js 15 + React 19 + Tailwind v4 Setup
 
-## Getting Started
+> **فارسی**
+>
+> این README مخصوص همین پروژه با Next.js 15.5.2، React 19، TypeScript 5 و Tailwind CSS v4 نوشته شده.
+>
+> ---
 
-First, run the development server:
+## 📦 پیش‌نیازها
+
+- Node.js نسخه LTS (حداقل 18)
+- pnpm یا npm یا yarn (در اینجا مثال‌ها با pnpm زده میشه)
+- Git
+
+## 🚀 راه‌اندازی محلی / Local setup
+
+1. کلون کردن ریپو:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yousef-yaghoubi/test-task
+cd test-task
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. نصب پکیج‌ها:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+# یا npm install
+# یا yarn
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. اجرای سرور توسعه (با Turbopack):
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+حالا آدرس http://localhost:3000 رو باز کن.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧩 بیلد و ران کردن در پروڈاکشن / Build & Start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm build
+pnpm start
+```
 
-## Deploy on Vercel
+## 🔧 اسکریپت‌ها
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `dev` → اجرای Next.js با Turbopack در حالت توسعه
+- `build` → بیلد پروڈاکشن با Turbopack
+- `start` → اجرای نسخهٔ بیلد شده
+- `lint` → اجرای ESLint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# test-task
+## 🎨 استایل‌ها / Styling
+
+- Tailwind CSS v4 نصب شده.
+- فایل `postcss.config.js` و `tailwind.config.js` بساز برای مدیریت بهتر استایل.
+- مثال ساده `postcss.config.js`:
+
+```js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+```
+
+- مثال ساده `tailwind.config.js`:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+## ✅ نکات / Tips
+
+- از App Router در Next.js 15 استفاده کن.
+- TypeScript فعال شده، همه‌ی فایل‌ها رو با `.tsx` بنویس.
+- ESLint پیکربندی شده، برای فرمت کد پیشنهاد میشه Prettier هم اضافه کنی.
+
+## 📞 تماس / Contact
+
+برای سوالات بیشتر توی Issues مطرح کن.
+
+---
+
+# README — Next.js 15 + React 19 + Tailwind v4 Setup (English)
+
+This README is tailored for this project running **Next.js 15.5.2**, **React 19**, **TypeScript 5**, and **Tailwind CSS v4**.
+
+## 📦 Prerequisites
+
+- Node.js (LTS >= 18)
+- pnpm (preferred) / npm / yarn
+- Git
+
+## 🚀 Local setup
+
+1. Clone repository:
+
+```bash
+git clone https://github.com/yousef-yaghoubi/test-task
+cd test-task
+```
+
+2. Install dependencies:
+
+```bash
+pnpm install
+# or npm install
+# or yarn
+```
+
+3. Run dev server (with Turbopack):
+
+```bash
+pnpm dev
+```
+
+Now open http://localhost:3000.
+
+## 🧩 Build & Start
+
+```bash
+pnpm build
+pnpm start
+```
+
+## 🔧 Scripts
+
+- `dev` → run Next.js dev server with Turbopack
+- `build` → build production with Turbopack
+- `start` → run built app
+- `lint` → run ESLint
+
+## 🎨 Styling
+
+- Tailwind CSS v4 is installed.
+- Create `postcss.config.js` and `tailwind.config.js` for better control.
+- Example `postcss.config.js`:
+
+```js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+```
+
+- Example `tailwind.config.js`:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+## ✅ Tips
+
+- Use Next.js 15 App Router.
+- TypeScript is enabled, use `.tsx` files.
+- ESLint is configured, consider adding Prettier for formatting.
+
+## 📞 Contact
+
+Raise an Issue for questions.
+
+---
