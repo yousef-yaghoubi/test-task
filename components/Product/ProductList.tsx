@@ -15,7 +15,6 @@ export default function ProductList({
   const [sortBy, setSortBy] = useState<"title" | "price">("title");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
-  
   const filteredAndSorted = useMemo(() => {
     const filtered = products.filter((p) =>
       p.name.toLowerCase().includes(query.toLowerCase())
@@ -41,9 +40,16 @@ export default function ProductList({
 
       {/* کنترل سورت */}
       <div className="flex gap-2 my-2">
-        <button onClick={() => setSortBy("title")}>Sort by Title</button>
-        <button onClick={() => setSortBy("price")}>Sort by Price</button>
-        <button onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}>
+        <button onClick={() => setSortBy("title")} className="cursor-pointer">
+          Sort by Title
+        </button>
+        <button onClick={() => setSortBy("price")} className="cursor-pointer">
+          Sort by Price
+        </button>
+        <button
+          onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
+          className="cursor-pointer"
+        >
           Toggle Dir
         </button>
       </div>

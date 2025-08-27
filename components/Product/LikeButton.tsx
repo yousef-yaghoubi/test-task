@@ -1,55 +1,45 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useLike } from "@/context/LikeContext";
+import { useOptimistic, useTransition, useEffect, useState } from "react";
 
 interface LikeButtonProps {
   id: number;
 }
 
 export default function LikeButton({ id }: LikeButtonProps) {
-  const [liked, setLiked] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isLiked, toggleLike } = useLike();
+  const [isPending, startTransition] = useTransition();
 
-  // خواندن LocalStorage هنگام mount
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("IdsProduct");
-      if (stored) {
-        const likedIds: number[] = JSON.parse(stored);
-        setLiked(likedIds.includes(id));
-      }
-    } catch (err) {
-      console.error("Failed to read from localStorage:", err);
-      setError("مشکلی در خواندن وضعیت لایک پیش آمد.");
-    }
-  }, [id]);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-  const toggleLike = () => {
-    try {
-      // Optimistic update
-      setLiked((prev) => !prev);
+  const [optimisticLiked, setOptimisticLiked] = useOptimistic(
+    false,
+    (_, newState: boolean) => newState
+  );
 
-      const stored = localStorage.getItem("IdsProduct");
-      let likedIds: number[] = stored ? JSON.parse(stored) : [];
-
-      if (liked) {
-        likedIds = likedIds.filter((pid) => pid !== id);
-      } else {
-        likedIds.push(id);
-      }
-
-      localStorage.setItem("IdsProduct", JSON.stringify(likedIds));
-    } catch (err) {
-      console.error("Failed to update localStorage:", err);
-      setError("مشکلی در ذخیره‌سازی وضعیت لایک پیش آمد.");
-      // ریست به حالت قبل اگر خطا رخ داد
-      setLiked((prev) => !prev);
-    }
+  const handleToggle = () => {
+    startTransition(() => {
+      const newLikedState = !optimisticLiked;
+      setOptimisticLiked(newLikedState);
+      toggleLike(id.toString());
+    });
   };
 
+  if (!mounted) return null;
+
   return (
-    <button onClick={toggleLike} className="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200">
-      {liked ? "Liked ❤️" : "Like 🤍"}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+    <button
+      onClick={handleToggle}
+      disabled={isPending}
+      className={`px-3 py-1 rounded transition-colors ${
+        isPending
+          ? "bg-gray-300 cursor-not-allowed"
+          : "bg-gray-100 hover:bg-gray-200"
+      }`}
+    >
+      {isLiked(id.toString()) ? "Liked ❤️" : "Like 🤍"}
+      {isPending && " ..."}
     </button>
   );
 }
